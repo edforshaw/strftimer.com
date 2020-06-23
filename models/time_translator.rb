@@ -1,5 +1,5 @@
 class TimeTranslator
-  GLOBAL_TIME_REGEXP = /(\+?\d{1,2}:?\d{2}\s*:?\d{2}?\s*(?:am|pm)?)|(\d{1,2}(?:am|pm))/i
+  GLOBAL_TIME_REGEXP = /(\d{1,2}:?\d{2}\s*:?\d{2}?\s*(?:am|pm)?)|(\d{1,2}(?:am|pm))/i
 
   def initialize(query)
     @query = query
