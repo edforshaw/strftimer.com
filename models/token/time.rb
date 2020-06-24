@@ -6,6 +6,7 @@ module Token
     MERIDIAN_REGEXP = /(?:am|pm)/i
     ONE_DIGIT_REGEXP = /^\d{1}$/
     TWO_DIGIT_REGEXP = /^\d{2}$/
+    THREE_DIGIT_REGEXP = /^\d{3}$/
     MILITARY_TIME_REGEXP = /^0\d[0-5]\d$/
     WORD_BOUNDARY_REGEXP = /\b/
 
@@ -27,6 +28,8 @@ module Token
         Token::Hour
       when TWO_DIGIT_REGEXP
         Token::TwoDigitTime
+      when THREE_DIGIT_REGEXP
+        Token::Millisecond
       when MILITARY_TIME_REGEXP
         Token::MilitaryTime
       else
