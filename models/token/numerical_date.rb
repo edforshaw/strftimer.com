@@ -32,7 +32,7 @@ module Token
     end
 
     def prioritised_token_groups
-      if looks_like_a_year?
+      groups = if looks_like_a_year?
         [:year]
       elsif (klasses_from_next = prioritised_token_groups_from_next)
         klasses_from_next
@@ -41,12 +41,18 @@ module Token
       else
         [:day, :month, :year]
       end
+
+      groups.delete(:month) if value.to_i > 12
+      groups.delete(:day) if value.to_i > 31
+      groups
     end
 
     # Look ahead at the next date-like tokens to determine this one
     def prioritised_token_groups_from_next
       case next_date_groups
       when [:day, :year]
+        [:month, :day, :year]
+      when [:day, :day] # or if 2 day-like numbers e.g. "22/18", also prioritise month
         [:month, :day, :year]
       when [:year]
         [:day, :month]
@@ -59,7 +65,7 @@ module Token
       when [:year]
         [:month, :day]
       when [:month]
-        [:year, :day]
+        [guess_day_or_year]
       end
     end
 
@@ -80,7 +86,16 @@ module Token
         day: Token::Day,
         month: Token::Month,
         year: Token::Year
-      }.fetch(group)
+      }.fetch(group, nil)
+    end
+
+    # for when we really just have to guess whether it's a day or a year
+    def guess_day_or_year
+      if looks_like_a_year? || !next_date_groups.first || value == ::Date.today.year.to_s[2..3]
+        :year
+      else
+        :day
+      end
     end
   end
 end
