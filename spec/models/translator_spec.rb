@@ -120,10 +120,12 @@ describe Translator do
       ["1:13:21PM", "%-l:%M:%S%p"],
       ["10:13:21 pm", "%I:%M:%S %P"],
       ["1:13:21 pm", "%-l:%M:%S %P"],
+      ["02:35:46 PM", "%I:%M:%S %p"],
 
       ["23 Jun 2020 at 18:10 BST", "%d %b %Y at %H:%M %Z"],
       ["23 Jun 2020 at 18:10 FOO", "%d %b %Y at %H:%M FOO"],
-      ["1:23pm CEST", "%-l:%M%P %Z"]
+      ["1:23pm CEST", "%-l:%M%P %Z"],
+      ["Jun 24, 2020 01:23:45 PM", "%b %d, %Y %I:%M:%S %p"]
     ].each do |input, expected_output|
       it "given input \"#{input}\" it returns \"#{expected_output}\"" do
         translator = described_class.new(input)
