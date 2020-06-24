@@ -5,10 +5,6 @@ module Token
         def initialize(value)
           @value = value
         end
-
-        def self.similar_tokens
-          []
-        end
       end
     end
 
