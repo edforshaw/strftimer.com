@@ -93,14 +93,8 @@ footer {
   padding: 2rem 0;
 }
 
-
 #strftime, #help {
   display: none;
-}
-
-#directives {
-  -webkit-user-select: all;
-  user-select: all;
 }
 
 #help {
