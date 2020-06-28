@@ -2,6 +2,7 @@ require 'sinatra'
 require 'sinatra/reloader' if development?
 require 'date'
 
+require './constants'
 Dir.glob('./models/token/concerns/*.rb').each { |file| require file }
 Dir.glob('./models/**/*.rb').each { |file| require file }
 

@@ -22,6 +22,7 @@ class Translator
 
   def build_translation
     str = query
+    str = IsoTranslator.new(str).translation
     str = TimeTranslator.new(str).translation
     str = DateTranslator.new(str).translation
     str

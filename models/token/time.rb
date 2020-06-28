@@ -7,17 +7,22 @@ module Token
     ONE_DIGIT_REGEXP = /^\d{1}$/
     TWO_DIGIT_REGEXP = /^\d{2}$/
     THREE_DIGIT_REGEXP = /^\d{3}$/
+    SIX_DIGIT_REGEXP = /^\d{6}$/
     MILITARY_TIME_REGEXP = /^0\d[0-5]\d$/
     WORD_BOUNDARY_REGEXP = /\b/
 
     private
 
-    # Ideally we could just split by the word boundary regexp, but we also
-    # need to partition by meridian. For example, to break up "12pm".
     def substring_array
-      value.partition(MERIDIAN_REGEXP).collect do |substring|
-        substring.split(WORD_BOUNDARY_REGEXP)
-      end.flatten
+      if value.match?(SIX_DIGIT_REGEXP) # If a series of digits, split manually
+        [value[0..1], value[2..3], value[4..5]]
+      else
+        # Ideally we could just split by the word boundary regexp, but we also
+        # need to partition by meridian. For example, to break up "12pm".
+        value.partition(MERIDIAN_REGEXP).collect do |substring|
+          substring.split(WORD_BOUNDARY_REGEXP)
+        end.flatten
+      end
     end
 
     def token_class(substring)
