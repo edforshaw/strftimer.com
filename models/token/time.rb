@@ -10,12 +10,16 @@ module Token
     SIX_DIGIT_REGEXP = /^\d{6}$/
     MILITARY_TIME_REGEXP = /^0\d[0-5]\d$/
     WORD_BOUNDARY_REGEXP = /\b/
+    TIMEZONE_OFFSET_REGEXP = /^(?:\+|\-)[01]\d:?\d{2}$/
 
     private
 
     def substring_array
-      if value.match?(SIX_DIGIT_REGEXP) # If a series of digits, split manually
+      case value
+      when SIX_DIGIT_REGEXP # If a series of digits, split manually
         [value[0..1], value[2..3], value[4..5]]
+      when TIMEZONE_OFFSET_REGEXP # No need to split timezone offsets
+        [value]
       else
         # Ideally we could just split by the word boundary regexp, but we also
         # need to partition by meridian. For example, to break up "12pm".
@@ -35,6 +39,8 @@ module Token
         Token::TwoDigitTime
       when THREE_DIGIT_REGEXP
         Token::Millisecond
+      when TIMEZONE_OFFSET_REGEXP
+        Token::TimezoneOffset
       when MILITARY_TIME_REGEXP
         Token::MilitaryTime
       else
