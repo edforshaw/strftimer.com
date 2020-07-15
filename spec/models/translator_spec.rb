@@ -38,7 +38,6 @@ describe Translator do
 
       ["0800", "%H%M"],
       ["0959", "%H%M"],
-      ["0999", "0999"],
 
       ["01:13", "%H:%M"],
       ["10:13", "%H:%M"],
@@ -122,6 +121,9 @@ describe Translator do
       ["10:13:21 pm", "%I:%M:%S %P"],
       ["1:13:21 pm", "%-l:%M:%S %P"],
       ["02:35:46 PM", "%I:%M:%S %p"],
+      ["10:13:21.000pm", "%I:%M:%S.%L%P"],
+      ["10:13:21.000111pm", "%I:%M:%S.%6N%P"],
+      ["10:13:21.1234567pm", "%I:%M:%S.%7N%P"],
 
       ["23 Jun 2020 at 18:10 BST", "%d %b %Y at %H:%M %Z"],
       ["23 Jun 2020 at 18:10 FOO", "%d %b %Y at %H:%M FOO"],
@@ -133,6 +135,7 @@ describe Translator do
       ["12:24:02.999 pm", "%I:%M:%S.%L %P"],
       ["11:52 26 Jun 2020", "%H:%M %d %b %Y"],
       ["Mon, 29 Jun 2020 12:34:56 +09:00", "%a, %d %b %Y %H:%M:%S %:z"],
+      ["Wed, 15 Jul 2020 12:34:56.00112233 +09:00", "%a, %d %b %Y %H:%M:%S.%8N %:z"],
 
       ["2020-06-26T15:39:30Z", "%Y-%m-%dT%H:%M:%SZ"],
       ["2020-06-26T16:40:00.000Z", "%Y-%m-%dT%H:%M:%S.%LZ"],
@@ -143,7 +146,9 @@ describe Translator do
       ["2020-01-06T15:15:48-02:00", "%Y-%m-%dT%H:%M:%S%:z"],
       ["2020-01-01T00:00:00+0000", "%Y-%m-%dT%H:%M:%S%z"],
       ["2020-06-26T16:40:00.000UTC", "%Y-%m-%dT%H:%M:%S.%L%Z"],
-      ["20200626T153930Z", "%Y%m%dT%H%M%SZ"]
+      ["20200626T153930Z", "%Y%m%dT%H%M%SZ"],
+      ["2020-07-14T11:11:11.123456", "%Y-%m-%dT%H:%M:%S.%6N"],
+      ["2020-07-14T11:11:11.123456789+03:00", "%Y-%m-%dT%H:%M:%S.%9N%:z"]
     ].each do |input, expected_output|
       it "given input \"#{input}\" it returns \"#{expected_output}\"" do
         translator = described_class.new(input)

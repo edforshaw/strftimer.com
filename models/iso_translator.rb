@@ -1,5 +1,5 @@
 class IsoTranslator
-  ISO_REGEXP = %r{\d{4}\-?\d{2}\-?\d{2}T\d{2}:?\d{2}:?\d{2}(?:\.\d{3})?
+  ISO_REGEXP = %r{\d{4}\-?\d{2}\-?\d{2}T\d{2}:?\d{2}:?\d{2}(?:\.\d{3,})?
     ((?:\+|\-)\d{2}:?\d{2}|#{Constants::TIME_ZONES.join('|')}|Z)?}xi
 
   def initialize(query)

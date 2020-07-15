@@ -2,7 +2,7 @@ module Token
   class Iso
     include Token::Base
     DATE_REGEXP = /\d{4}(?:\-)?\d{2}(?:\-)?\d{2}/
-    TIME_REGEXP = /\d{2}(?:\:)?\d{2}(?:\:)?\d{2}(?:\.\d{3})?/
+    TIME_REGEXP = /\d{2}(?:\:)?\d{2}(?:\:)?\d{2}(?:\.\d{3,})?/
     TIMEZONE_ABBR_REGEXP = /(#{Constants::TIME_ZONES.join('|')})/
     TIMEZONE_OFFSET_REGEXP = /(?:\+|\-)\d{2}\:?\d{2}/
     TIMEZONE_FALLBACK_REGEXP = /Z$/
@@ -19,11 +19,11 @@ module Token
     private
 
     def date_translation
-      Token::Date.new(value.scan(DATE_REGEXP).first).translation
+      Token::Date.new(value[DATE_REGEXP]).translation
     end
 
     def time_translation
-      Token::Time.new(value.scan(TIME_REGEXP).first).translation
+      Token::Time.new(value[TIME_REGEXP]).translation
     end
 
     def timezone_translation
