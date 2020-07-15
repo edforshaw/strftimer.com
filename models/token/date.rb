@@ -9,7 +9,7 @@ module Token
     ORDINAL_DAY_REGEXP = /^\d{1,2}(?:st|nd|rd|th)$/
     ONE_OR_TWO_DIGIT_REGEXP = /^\d{1,2}$/
     FOUR_DIGIT_YEAR_REGEXP = /^[1-9]\d{3}$/
-    TIMEZONE_REGEXP = /^(#{Constants::TIME_ZONES.join('|')})$/
+    TIMEZONE_ABBR_REGEXP = /^(#{Constants::TIME_ZONES.join('|')})$/
     EIGHT_DIGIT_REGEXP = /^\d{8}$/
 
     private
@@ -34,7 +34,7 @@ module Token
         Token::OrdinalDay
       when ONE_OR_TWO_DIGIT_REGEXP
         Token::NumericalDate
-      when TIMEZONE_REGEXP
+      when TIMEZONE_ABBR_REGEXP
         Token::Timezone
       else
         Token::String

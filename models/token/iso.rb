@@ -3,15 +3,16 @@ module Token
     include Token::Base
     DATE_REGEXP = /\d{4}(?:\-)?\d{2}(?:\-)?\d{2}/
     TIME_REGEXP = /\d{2}(?:\:)?\d{2}(?:\:)?\d{2}(?:\.\d{3})?/
-    TIMEZONE_REGEXP = /(#{Constants::TIME_ZONES.join('|')})/
+    TIMEZONE_ABBR_REGEXP = /(#{Constants::TIME_ZONES.join('|')})/
     TIMEZONE_OFFSET_REGEXP = /(?:\+|\-)\d{2}\:?\d{2}/
+    TIMEZONE_FALLBACK_REGEXP = /Z$/
 
     def translation
       [
         date_translation,
         "T",
         time_translation,
-        (timezone_translation || timezone_offset_translation || "Z")
+        timezone_translation
       ].join
     end
 
@@ -26,14 +27,13 @@ module Token
     end
 
     def timezone_translation
-      if (str = value.scan(TIMEZONE_REGEXP).first)
-        Token::Timezone.new(str).translation
-      end
-    end
-
-    def timezone_offset_translation
-      if (str = value.scan(TIMEZONE_OFFSET_REGEXP).first)
-        Token::TimezoneOffset.new(str).translation
+      case value
+      when TIMEZONE_ABBR_REGEXP
+        Token::Timezone.new(value[TIMEZONE_ABBR_REGEXP]).translation
+      when TIMEZONE_OFFSET_REGEXP
+        Token::TimezoneOffset.new(value[TIMEZONE_OFFSET_REGEXP]).translation
+      when TIMEZONE_FALLBACK_REGEXP
+        Token::String.new(value[TIMEZONE_FALLBACK_REGEXP]).translation
       end
     end
   end
