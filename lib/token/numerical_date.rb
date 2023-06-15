@@ -33,14 +33,14 @@ module Token
 
     def prioritised_token_groups
       groups = if looks_like_a_year?
-        [:year]
-      elsif (klasses_from_next = prioritised_token_groups_from_next)
-        klasses_from_next
-      elsif (klasses_from_previous = prioritised_token_groups_from_previous)
-        klasses_from_previous
-      else
-        [:day, :month, :year]
-      end
+                 [:year]
+               elsif (klasses_from_next = prioritised_token_groups_from_next)
+                 klasses_from_next
+               elsif (klasses_from_previous = prioritised_token_groups_from_previous)
+                 klasses_from_previous
+               else
+                 %i[day month year]
+               end
 
       groups.delete(:month) if value.to_i > 12
       groups.delete(:day) if value.to_i > 31
@@ -50,12 +50,12 @@ module Token
     # Look ahead at the next date-like tokens to determine this one
     def prioritised_token_groups_from_next
       case next_date_groups
-      when [:day, :year]
-        [:month, :day, :year]
-      when [:day, :day] # or if 2 day-like numbers e.g. "22/18", also prioritise month
-        [:month, :day, :year]
+      when %i[day year]
+        %i[month day year]
+      when %i[day day] # or if 2 day-like numbers e.g. "22/18", also prioritise month
+        %i[month day year]
       when [:year]
-        [:day, :month]
+        %i[day month]
       end
     end
 
@@ -63,7 +63,7 @@ module Token
     def prioritised_token_groups_from_previous
       case previous_date_groups
       when [:year]
-        [:month, :day]
+        %i[month day]
       when [:month]
         [guess_day_or_year]
       end

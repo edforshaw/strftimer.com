@@ -1,6 +1,6 @@
-require './strftimer'
+require "spec_helper"
 
-describe Translator do
+RSpec.describe Translator do
   describe "#valid?" do
     it "returns false if there is no query" do
       translator = described_class.new("")
@@ -152,7 +152,7 @@ describe Translator do
 
       ["", ""],
       ["some text", "some text"],
-      ["the %year is %2020%", "the %%year is %%%Y%%"],
+      ["the %year is %2020%", "the %%year is %%%Y%%"]
     ].each do |input, expected_output|
       it "given input \"#{input}\" it returns \"#{expected_output}\"" do
         translator = described_class.new(input)

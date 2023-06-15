@@ -10,7 +10,7 @@ module Token
     SIX_DIGIT_REGEXP = /^\d{6}$/
     MILITARY_TIME_REGEXP = /^0\d[0-5]\d$/
     WORD_BOUNDARY_REGEXP = /\b/
-    TIMEZONE_OFFSET_REGEXP = /^(?:\+|\-)[01]\d:?\d{2}$/
+    TIMEZONE_OFFSET_REGEXP = /^(?:\+|-)[01]\d:?\d{2}$/
 
     private
 

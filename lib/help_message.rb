@@ -1,5 +1,4 @@
 class HelpMessage
-
   def initialize(translation)
     @translation = translation
   end

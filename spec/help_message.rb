@@ -1,6 +1,6 @@
-require './strftimer'
+require "./strftimer"
 
-describe HelpMessage do
+RSpec.describe HelpMessage do
   describe "#message" do
     it "returns nil if no message is required" do
       help = described_class.new("%m %d %Y")

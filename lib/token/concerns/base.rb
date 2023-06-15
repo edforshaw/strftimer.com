@@ -12,8 +12,7 @@ module Token
       value
     end
 
-    def contextualize(previous_tokens:, next_tokens:)
-    end
+    def contextualize(previous_tokens:, next_tokens:); end
 
     private
 

@@ -1,10 +1,10 @@
-source 'https://rubygems.org'
+# frozen_string_literal: true
 
-gem 'sinatra'
-gem 'sinatra-contrib'
-gem 'rspec'
-gem 'rack', '>= 2.2.3'
+source "https://rubygems.org"
 
-group :development do
-  gem 'byebug'
-end
+# Specify your gem's dependencies in strftimer_gem.gemspec
+gemspec
+
+gem "rake", "~> 13.0"
+gem "rspec", "~> 3.0"
+gem "rubocop", "~> 1.21"

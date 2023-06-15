@@ -1,3 +1,5 @@
+require "token/date"
+
 class DateTranslator
   def initialize(query)
     @query = query

@@ -1,7 +1,5 @@
-module Constants
-  MONTH_WORDS = [::Date::MONTHNAMES, ::Date::ABBR_MONTHNAMES].compact
-  DAY_WORDS = [::Date::DAYNAMES, ::Date::ABBR_DAYNAMES].compact
-  TIME_ZONES = %w{
+class IsoTranslator
+  TIME_ZONES = %w[
     ACDT ACST ACT ACWST ADT AEDT AEST AET AFT AKDT AKST ALMT AMST AMT ANAT
     AQTT ART AST AWST AZOST AZOT AZT BDT BIOT BIT BOT BRST BRT BST BTT CAT
     CCT CDT CEST CET CHADT CHAST CHOT CHOST CHST CHUT CIST CIT CKT CLST CLT
@@ -14,5 +12,24 @@ module Constants
     RET ROTT SAKT SAMT SAST SBT SCT SDT SGT SLST SRET SRT SST SYOT TAHT THA
     TFT TJT TKT TLT TMT TRT TOT TVT ULAST ULAT UTC UYST UYT UZT VET VLAT VOLT
     VOST VUT WAKT WAST WAT WEST WET WIT WGST WGT WST YAKT YEKT
-  }
+  ]
+
+  ISO_REGEXP = /\d{4}-?\d{2}-?\d{2}T\d{2}:?\d{2}:?\d{2}(?:\.\d{3,})?
+    ((?:\+|-)\d{2}:?\d{2}|#{TIME_ZONES.join('|')}|Z)?/xi
+
+  def initialize(query)
+    @query = query
+  end
+
+  def translation
+    @_translation ||= build_translation
+  end
+
+  private
+
+  attr_reader :query
+
+  def build_translation
+    query.gsub(ISO_REGEXP) { |token| Token::Iso.new(token).translation }
+  end
 end
